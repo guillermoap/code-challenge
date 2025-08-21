@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'byebug'
 require 'nokogiri'
 
 class GoogleParser
@@ -20,8 +21,9 @@ class GoogleParser
   def parse
     parent_divs.each do |div|
       link = get_link(div)
+      img = get_img(div)
 
-      @artworks[:artworks] << { link: }
+      @artworks[:artworks] << { link:, img: }
     end
   end
 
@@ -75,5 +77,26 @@ class GoogleParser
   def get_link(tag)
     href = tag.at_css('a[href^="/search"]')['href']
     "https://www.google.com#{href}"
+  end
+
+  def get_img(tag)
+    img_tag = tag.at_css('img[data-src]') || tag.at_css('img:not([data-src])')
+    src = img_tag['data-src'] || img_tag['src']
+    id = img_tag['id']
+
+    if img_tag['data-deferred'] == '1'
+      get_full_src(id)
+    else
+      src
+    end
+  end
+
+  def get_full_src(id)
+    @scripts ||= @doc.css('script').map(&:content).join("\n")
+
+    block = @scripts[/\{[^{}]*#{Regexp.escape(id)}[^{}]*\}/m]
+    return nil unless block
+
+    block[%r{(data:image/[^'"\s\}\]]+)}, 1]
   end
 end

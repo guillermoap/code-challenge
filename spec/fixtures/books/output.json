@@ -1,5 +1,5 @@
 {
-  "artworks": [
+  "books": [
     {
       "name": "The Way of Kings",
       "extensions": [
@@ -294,7 +294,7 @@
         "2009"
       ],
       "link": "https://www.google.com/search?sca_esv=704d9b9f92b567db&sxsrf=AE3TifNVvzIzkoaO4WqOcLh9z2K9Z_Bn4A:1755826854550&q=The+Gathering+Storm+(novel)&stick=H4sIAAAAAAAAAONgFuLUz9U3MDM3LS5W4gIzTYzKKnO0pLKTrfST8vOz9RNLSzLyi6xA7GKF_LycykWs0iEZqQruiSUZqUWZeekKwSX5RbkKGnn5Zak5mgCf17wWUwAAAA&sa=X&ved=2ahUKEwipoc_fpJ2PAxXIkJUCHYFaKb0Q9OUBegQIMRBL",
-      "img": "//www.gstatic.com/knowledgecard/book-143.png"
+      "img": "https://www.gstatic.com/knowledgecard/book-143.png"
     },
     {
       "name": "Firefight",

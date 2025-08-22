@@ -1,5 +1,5 @@
 {
-  "artworks": [
+  "albums": [
     {
       "name": "Nevermind",
       "extensions": [
@@ -96,7 +96,7 @@
         "2021"
       ],
       "link": "https://www.google.com/search?sca_esv=704d9b9f92b567db&sxsrf=AE3TifOFp2JFLhvJUQv32ppncxug9VVDaw:1755818548671&q=Nirvana+Choice+Is+Yours&stick=H4sIAAAAAAAAAONgFuLQz9U3SDKsqlLi1U_XNzQsyiosNLcsLNcSz0620s8tLc5M1k8sKsksLrFKzEkqzS1exCrul1lUlpiXqOCckZ-ZnKrgWawQmV9aVAwAfkenLE4AAAA&sa=X&ved=2ahUKEwieyojnhZ2PAxWxpZUCHUABK9EQ9OUBegQIGhAb",
-      "img": "//www.gstatic.com/knowledgecard/album-95.png"
+      "img": "https://www.gstatic.com/knowledgecard/album-95.png"
     },
     {
       "name": "Live at the Paramount",
@@ -134,7 +134,7 @@
         "1994"
       ],
       "link": "https://www.google.com/search?sca_esv=704d9b9f92b567db&sxsrf=AE3TifOFp2JFLhvJUQv32ppncxug9VVDaw:1755818548671&q=Nirvana+Outcesticide:+In+Memory+of+Kurt+Cobain&stick=H4sIAAAAAAAAAONgFuLQz9U3SDKsqlLiArEyjE2Tcou0xLOTrfRzS4szk_UTi0oyi0usEnOSSnOLF7Hq-WUWlSXmJSr4l5YkpxaXZCZnpqRaKXjmKfim5uYXVSrkpyl4lxaVKDjnJyVm5gEAKGYQsWIAAAA&sa=X&ved=2ahUKEwieyojnhZ2PAxWxpZUCHUABK9EQ9OUBegQIGhAl",
-      "img": "//www.gstatic.com/knowledgecard/album-95.png"
+      "img": "https://www.gstatic.com/knowledgecard/album-95.png"
     },
     {
       "name": "Outcesticide III: The Final Solution",
@@ -164,7 +164,7 @@
         "2015"
       ],
       "link": "https://www.google.com/search?sca_esv=704d9b9f92b567db&sxsrf=AE3TifOFp2JFLhvJUQv32ppncxug9VVDaw:1755818548671&q=Nirvana+Complete+-+Live+At+Kaos+Fm,+Seattle+Radio,+1987&stick=H4sIAAAAAAAAAONgFuLQz9U3SDKsqlLi1U_XNzRMMo8vNskuKtMSz0620s8tLc5M1k8sKsksLrFKzEkqzS1exGrul1lUlpiXqOCcn1uQk1qSqqCr4JNZlqrgWKLgnZhfrOCWq6MQnJpYUpKTqhCUmJKZr6NgaGlhDgCaC_HLbgAAAA&sa=X&ved=2ahUKEwieyojnhZ2PAxWxpZUCHUABK9EQ9OUBegQIGhAt",
-      "img": "//www.gstatic.com/knowledgecard/album-95.png"
+      "img": "https://www.gstatic.com/knowledgecard/album-95.png"
     },
     {
       "name": "Outcesticide, Volume 8",
@@ -220,7 +220,7 @@
         "2024"
       ],
       "link": "https://www.google.com/search?sca_esv=704d9b9f92b567db&sxsrf=AE3TifOFp2JFLhvJUQv32ppncxug9VVDaw:1755818548671&q=Nirvana+Community+World+Theater,+Tacoma,+USA+-+23rd+January+1988&stick=H4sIAAAAAAAAAONgFuLQz9U3SDKsqlLi1U_XNzSsNE0qyjMtMtYSz0620s8tLc5M1k8sKsksLrFKzEkqzS1exOrgl1lUlpiXqOCcn5tbmpdZUqkQnl-Uk6IQkpGaWJJapKMQkpicn5uooxAa7Kigq2BkXJSi4JWYV5pYVKlgaGlhAQBQpMfAdwAAAA&sa=X&ved=2ahUKEwieyojnhZ2PAxWxpZUCHUABK9EQ9OUBegQIGhA9",
-      "img": "//www.gstatic.com/knowledgecard/album-95.png"
+      "img": "https://www.gstatic.com/knowledgecard/album-95.png"
     },
     {
       "name": "Live",

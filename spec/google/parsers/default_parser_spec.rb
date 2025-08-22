@@ -40,6 +40,7 @@ RSpec.describe Google::Parsers::DefaultParser do
     it 'extracts valid image URLs' do
       parser.results[:items].each do |item|
         next unless item[:img]
+
         expect(item[:img]).to start_with('data:image/').or start_with('https://').or start_with('http://')
       end
     end

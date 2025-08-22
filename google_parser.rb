@@ -2,6 +2,7 @@
 
 require 'byebug'
 require 'nokogiri'
+require 'json'
 
 class GoogleParser
   attr_reader :artworks
@@ -26,10 +27,10 @@ class GoogleParser
       extensions = get_extensions(div)
 
       @artworks[:artworks] << {
-        link: link,
-        img: img,
         name: name,
-        extensions: extensions
+        extensions: extensions,
+        link: link,
+        img: img
       }
     end
   end

@@ -22,8 +22,14 @@ class GoogleParser
     parent_divs.each do |div|
       link = get_link(div)
       img = get_img(div)
+      name_and_date = get_name_and_date(div)
 
-      @artworks[:artworks] << { link:, img: }
+      @artworks[:artworks] << {
+        link: link,
+        img: img,
+        name: name_and_date[:name],
+        date: name_and_date[:date]
+      }
     end
   end
 
@@ -89,6 +95,54 @@ class GoogleParser
     else
       src
     end
+  end
+
+  def get_name_and_date(tag)
+    name = nil
+    date = nil
+
+    # Try to get name from anchor tag text
+    anchor = tag.at_css('a')
+    if anchor && !anchor.text.strip.empty?
+      raw_text = anchor.text.strip
+
+      # Check if the text contains a year at the end
+      if raw_text.match?(/(.+?)(\d{4})$/)
+        name = raw_text.gsub(/\d{4}$/, '').strip
+        date = raw_text.match(/(\d{4})$/)[1]
+      else
+        name = raw_text
+      end
+    end
+
+    # If no name from anchor, try img alt attribute
+    unless name
+      img = tag.at_css('img')
+      if img && img['alt'] && !img['alt'].strip.empty?
+        raw_text = img['alt'].strip
+
+        # Check if alt text contains a year at the end
+        if raw_text.match?(/(.+?)(\d{4})$/)
+          name = raw_text.gsub(/\d{4}$/, '').strip
+          date = raw_text.match(/(\d{4})$/)[1]
+        else
+          name = raw_text
+        end
+      end
+    end
+
+    # If no date found yet, look for date in separate div text content
+    unless date
+      tag.css('div').each do |div|
+        text = div.text.strip
+        if text.match?(/^\d{4}$/) || text.match?(/\b(19|20)\d{2}\b/)
+          date = text
+          break
+        end
+      end
+    end
+
+    { name: name, date: date }
   end
 
   def get_full_src(id)

@@ -26,3 +26,7 @@ Add also to your array the painting thumbnails present in the result page file (
 Test against 2 other similar result pages to make sure it works against different layouts. (Pages that contain the same kind of carrousel. Don't necessarily have to be paintings.)
 
 The suggested time for this challenge is 4 hours. But, you can take your time and work more on it if you want.
+
+## Solution Architecture
+
+This solution implements a scalable, modular parser system that can handle multiple types of Google carousels. For detailed information about the architecture, benefits, and extensibility, see [explanation.md](explanation.md).

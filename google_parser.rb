@@ -43,7 +43,7 @@ class GoogleParser
     parent_divs = []
     processed_divs = Set.new
 
-    divs_to_process = first_kc_div.children.select { |child| child.name == 'div' }
+    divs_to_process = first_kc_div.css('div').select { |div| has_both_a_and_img(div) }
 
     until divs_to_process.empty?
       current_div = divs_to_process.shift
@@ -104,7 +104,7 @@ class GoogleParser
     # Try to get name from anchor tag text
     anchor = tag.at_css('a')
     if anchor && !anchor.text.strip.empty?
-      raw_text = anchor.text.strip
+      raw_text = anchor.text.strip.gsub(/\s+/, ' ')
 
       # Check if the text contains a year at the end
       if raw_text.match?(/(.+?)(\d{4})$/)
@@ -119,7 +119,7 @@ class GoogleParser
     unless name
       img = tag.at_css('img')
       if img && img['alt'] && !img['alt'].strip.empty?
-        raw_text = img['alt'].strip
+        raw_text = img['alt'].strip.gsub(/\s+/, ' ')
 
         # Check if alt text contains a year at the end
         if raw_text.match?(/(.+?)(\d{4})$/)
@@ -131,12 +131,35 @@ class GoogleParser
       end
     end
 
-    # If no date found yet, look for date in separate div text content
+    # If no name yet, look for name in first meaningful div
+    unless name
+      tag.css('div').each do |div|
+        raw_text = div.text.strip.gsub(/\s+/, ' ')
+        # Skip if it's just a date or too short
+        next if raw_text.match?(/^\d{4}$/) || raw_text.length < 3
+
+        # Check if it has a year at the end
+        if raw_text.match?(/(.+?)(\d{4})$/)
+          potential_name = raw_text.gsub(/\d{4}$/, '').strip
+          # Only use if there's meaningful content after removing the year
+          if potential_name.length > 2
+            name = potential_name
+            date = raw_text.match(/(\d{4})$/)[1]
+          end
+        else
+          # It's just text without a year, use as name
+          name = raw_text
+        end
+        break if name
+      end
+    end
+
+    # Look for date in div text content
     unless date
       tag.css('div').each do |div|
-        text = div.text.strip
-        if text.match?(/^\d{4}$/) || text.match?(/\b(19|20)\d{2}\b/)
-          date = text
+        raw_text = div.text.strip.gsub(/\s+/, ' ')
+        if raw_text.match?(/^\d{4}$/) || raw_text.match?(/\b(19|20)\d{2}\b/)
+          date = raw_text.match(/(\d{4})$/)[1]
           break
         end
       end

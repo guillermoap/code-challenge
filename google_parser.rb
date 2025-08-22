@@ -22,13 +22,14 @@ class GoogleParser
     parent_divs.each do |div|
       link = get_link(div)
       img = get_img(div)
-      name_and_date = get_name_and_date(div)
+      name = get_name(div)
+      extensions = get_extensions(div)
 
       @artworks[:artworks] << {
         link: link,
         img: img,
-        name: name_and_date[:name],
-        date: name_and_date[:date]
+        name: name,
+        extensions: extensions
       }
     end
   end
@@ -97,75 +98,75 @@ class GoogleParser
     end
   end
 
-  def get_name_and_date(tag)
-    name = nil
-    date = nil
-
+  def get_name(tag)
     # Try to get name from anchor tag text
     anchor = tag.at_css('a')
     if anchor && !anchor.text.strip.empty?
       raw_text = anchor.text.strip.gsub(/\s+/, ' ')
 
       # Check if the text contains a year at the end
-      if raw_text.match?(/(.+?)(\d{4})$/)
-        name = raw_text.gsub(/\d{4}$/, '').strip
-        date = raw_text.match(/(\d{4})$/)[1]
-      else
-        name = raw_text
-      end
+      return raw_text.gsub(/\d{4}$/, '').strip if raw_text.match?(/(.+?)(\d{4})$/)
+
+      return raw_text
+
     end
 
     # If no name from anchor, try img alt attribute
-    unless name
-      img = tag.at_css('img')
-      if img && img['alt'] && !img['alt'].strip.empty?
-        raw_text = img['alt'].strip.gsub(/\s+/, ' ')
+    img = tag.at_css('img')
+    if img && img['alt'] && !img['alt'].strip.empty?
+      raw_text = img['alt'].strip.gsub(/\s+/, ' ')
 
-        # Check if alt text contains a year at the end
-        if raw_text.match?(/(.+?)(\d{4})$/)
-          name = raw_text.gsub(/\d{4}$/, '').strip
-          date = raw_text.match(/(\d{4})$/)[1]
-        else
-          name = raw_text
+      # Check if alt text contains a year at the end
+      return raw_text.gsub(/\d{4}$/, '').strip if raw_text.match?(/(.+?)(\d{4})$/)
+
+      return raw_text
+
+    end
+
+    # Look for name in first meaningful div
+    tag.css('div').each do |div|
+      raw_text = div.text.strip.gsub(/\s+/, ' ')
+      # Skip if it's just a date or too short
+      next if raw_text.match?(/^\d{4}$/) || raw_text.length < 3
+
+      # Check if it has a year at the end
+      return raw_text unless raw_text.match?(/(.+?)(\d{4})$/)
+
+      potential_name = raw_text.gsub(/\d{4}$/, '').strip
+      # Only use if there's meaningful content after removing the year
+      return potential_name if potential_name.length > 2
+
+      # It's just text without a year, use as name
+    end
+
+    nil
+  end
+
+  def get_extensions(tag)
+    extensions = []
+    name = get_name(tag)
+
+    tag.css('div').each do |div|
+      # Check if div has multiple child elements (likely metadata container)
+      if div.children.length > 1
+        div.children.each do |child|
+          next unless child.text?
+
+          text = child.text.strip
+          next if text.empty? || text == '·' || text == name
+
+          extensions << text
         end
+      else
+        # Single text div
+        text = div.text.strip
+        next if text.empty? || text == '·' || text == name
+
+        extensions << text if text.length < 20
       end
     end
 
-    # If no name yet, look for name in first meaningful div
-    unless name
-      tag.css('div').each do |div|
-        raw_text = div.text.strip.gsub(/\s+/, ' ')
-        # Skip if it's just a date or too short
-        next if raw_text.match?(/^\d{4}$/) || raw_text.length < 3
-
-        # Check if it has a year at the end
-        if raw_text.match?(/(.+?)(\d{4})$/)
-          potential_name = raw_text.gsub(/\d{4}$/, '').strip
-          # Only use if there's meaningful content after removing the year
-          if potential_name.length > 2
-            name = potential_name
-            date = raw_text.match(/(\d{4})$/)[1]
-          end
-        else
-          # It's just text without a year, use as name
-          name = raw_text
-        end
-        break if name
-      end
-    end
-
-    # Look for date in div text content
-    unless date
-      tag.css('div').each do |div|
-        raw_text = div.text.strip.gsub(/\s+/, ' ')
-        if raw_text.match?(/^\d{4}$/) || raw_text.match?(/\b(19|20)\d{2}\b/)
-          date = raw_text.match(/(\d{4})$/)[1]
-          break
-        end
-      end
-    end
-
-    { name: name, date: date }
+    extensions.uniq
   end
 
   def get_full_src(id)

@@ -4,6 +4,7 @@ require_relative 'artworks_parser'
 require_relative 'albums_parser'
 require_relative 'books_parser'
 require_relative 'films_parser'
+require_relative 'default_parser'
 
 module Google
   module Parsers
@@ -17,7 +18,7 @@ module Google
 
       def self.create_parser(html_content = nil, file_path = nil)
         kc_type = detect_kc_type(html_content, file_path)
-        parser_class = KC_TYPE_MAPPINGS[kc_type] || ArtworksParser
+        parser_class = KC_TYPE_MAPPINGS[kc_type] || DefaultParser
 
         parser_class.new(html_content, file_path)
       end

@@ -68,8 +68,8 @@ RSpec.describe Google::Parsers::Factory do
         '<html><div data-attrid="kc:/unknown/type:items">Test</div></html>'
       end
 
-      it 'returns default ArtworksParser' do
-        expect(subject).to be_a(Google::Parsers::ArtworksParser)
+      it 'returns default DefaultParser' do
+        expect(subject).to be_a(Google::Parsers::DefaultParser)
       end
     end
 
@@ -78,8 +78,8 @@ RSpec.describe Google::Parsers::Factory do
         '<html><div>No KC div</div></html>'
       end
 
-      it 'returns default ArtworksParser' do
-        expect(subject).to be_a(Google::Parsers::ArtworksParser)
+      it 'returns default DefaultParser' do
+        expect(subject).to be_a(Google::Parsers::DefaultParser)
       end
     end
   end
